@@ -21,7 +21,8 @@ jobs:
         generator:
         - default
         include:
-        - {os: windows-latest, compiler: msvc}
+          # msvc not supported right now
+        # - {os: windows-latest, compiler: msvc}
         - {os: windows-latest, compiler: gcc, generator: Ninja}
         - {os: windows-latest, compiler: llvm, generator: Ninja}
     steps:
