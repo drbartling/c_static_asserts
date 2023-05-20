@@ -1,12 +1,15 @@
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 
 project(simple_example)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 17)
 
-include(../../cmake/CPM.cmake)
+# include(../../cmake/CPM.cmake)
 
-if(NOT TARGET c_static_asserts)
-    CPMAddPackage("gh:drbartling/c_static_asserts#master")
-endif()
+# if(NOT TARGET c_static_asserts)
+#     CPMAddPackage("gh:drbartling/c_static_asserts#master")
+# endif()
+add_subdirectory(../.. lib_build)
 
 # ---- Create binary ----
 

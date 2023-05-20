@@ -1,37 +1,18 @@
 #ifndef STATIC_ASSERT_H
 #define STATIC_ASSERT_H
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
+
+#include <stddef.h>
 
 #ifdef __cplusplus
-#define STATIC_ASSERT static_assert
+#    define STATIC_ASSERT static_assert
 #else
-#define STATIC_ASSERT _Static_assert
+#    define STATIC_ASSERT _Static_assert
 #endif
 
-/**
- * @brief      Stringify helper
- *
- *             Required preprocessor indirection
- *
- * @warning    Do note call directly.  Use STR() instead.
- *
- * @param      x     Item to stringify
- *
- * @return     Stringified result
- * @see        STR()
- */
 #define STR_HELPER(x) #x
-
-/**
- * @brief      Converts input into string
- *
- * @param      x     Datum to convert to string
- *
- * @return     String constant produced by preprocessor
- */
 #define STR(x) STR_HELPER(x)
 
 /**
@@ -43,20 +24,29 @@ extern "C"
  * @param      t_label        The type label
  * @param      expected_size  The expected size
  *
- * @return     Compile time error if assertion fails
  */
-#define STATIC_ASSERT_TYPE_SIZE(t_label, expected_size)                \
-    STATIC_ASSERT(                                                     \
-        !(sizeof(t_label) < expected_size),                            \
-        STR(t_label) " is smaller than " STR(expected_size) " bytes"); \
-    STATIC_ASSERT(                                                     \
-        !(sizeof(t_label) > expected_size),                            \
-        STR(t_label) " is larger than " STR(expected_size) " bytes");  \
-    STATIC_ASSERT(sizeof(t_label) == expected_size,                    \
+#define STATIC_ASSERT_TYPE_SIZE(t_label, expected_size)                        \
+    STATIC_ASSERT(                                                             \
+        !(sizeof(t_label) < expected_size),                                    \
+        STR(t_label) " is smaller than " STR(expected_size) " bytes");         \
+    STATIC_ASSERT(                                                             \
+        !(sizeof(t_label) > expected_size),                                    \
+        STR(t_label) " is larger than " STR(expected_size) " bytes");          \
+    STATIC_ASSERT(sizeof(t_label) == expected_size,                            \
                   STR(t_label) " must be " STR(expected_size) " bytes");
 
-#define STATIC_ASSERT_MEMBER_OFFSET(t_label, member, offset) \
-    STATIC_ASSERT((uint8_t *)(&((t_label *)0x0)->member) == (uint8_t *)offset)
+/**
+ * @brief      Fail compilation if ofset of member does not match the expected
+ *             offset
+ *
+ * @param      t_label          Lable for the type
+ * @param      member           Label for the member
+ * @param      expected_offset  The expected offset
+ *
+ */
+#define STATIC_ASSERT_MEMBER_OFFSET(t_label, member, expected_offset)          \
+    STATIC_ASSERT(offsetof(t_label, member) == expected_offset,                \
+                  STR(member) " offset must be " STR(expected_offset))
 
 #ifdef __cplusplus
 }
