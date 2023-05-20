@@ -3,7 +3,7 @@ name: examples
 on: push
 
 jobs:
-  unit-test:
+  examples:
     name: ${{ matrix.os }}-${{ matrix.compiler }}
     runs-on: ${{ matrix.os }}
     defaults:
@@ -41,4 +41,4 @@ jobs:
       if: matrix.generator != 'default'
       run: echo "CMAKE_GENERATOR=${{matrix.generator}}" >> $GITHUB_ENV
     - name: Build Targets
-      run: make test
+      run: make
