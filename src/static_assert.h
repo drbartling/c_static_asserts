@@ -33,7 +33,7 @@ extern "C" {
         !(sizeof(t_label) > expected_size),                                    \
         STR(t_label) " is larger than " STR(expected_size) " bytes");          \
     STATIC_ASSERT(sizeof(t_label) == expected_size,                            \
-                  STR(t_label) " must be " STR(expected_size) " bytes");
+                  STR(t_label) " must be " STR(expected_size) " bytes")
 
 /**
  * @brief      Fail compilation if ofset of member does not match the expected
@@ -45,6 +45,11 @@ extern "C" {
  *
  */
 #define STATIC_ASSERT_MEMBER_OFFSET(t_label, member, expected_offset)          \
+    STATIC_ASSERT(!(offsetof(t_label, member) < expected_offset),              \
+                  STR(member) " offset is less than " STR(expected_offset));   \
+    STATIC_ASSERT(                                                             \
+        !(offsetof(t_label, member) > expected_offset),                        \
+        STR(member) " offset is greater than " STR(expected_offset));          \
     STATIC_ASSERT(offsetof(t_label, member) == expected_offset,                \
                   STR(member) " offset must be " STR(expected_offset))
 
