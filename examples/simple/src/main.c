@@ -12,7 +12,7 @@ STATIC_ASSERT_TYPE_SIZE(my_struct_t, 7);
 STATIC_ASSERT_MEMBER_OFFSET(my_struct_t, big_num, 1);
 STATIC_ASSERT_MEMBER_OFFSET(my_struct_t, med_num, 5);
 
-typedef enum : int8_t {
+typedef enum __attribute__((packed)) {
     fruit,
     vegetable,
 } union_tag_t;
