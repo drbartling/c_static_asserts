@@ -16,19 +16,19 @@ typedef enum __attribute__((packed)) {
     fruit,
     vegetable,
 } union_tag_t;
-// STATIC_ASSERT_TYPE_SIZE(union_tag_t, 1);
+STATIC_ASSERT_TYPE_SIZE(union_tag_t, 1);
 
 typedef enum __attribute__((packed)) {
     apple,
     pear,
     banana,
 } tasty_fruit_t;
-// STATIC_ASSERT_TYPE_SIZE(tasty_fruit_t, 1);
+STATIC_ASSERT_TYPE_SIZE(tasty_fruit_t, 1);
 
 typedef struct __attribute__((packed)) {
     int8_t empty[0]; // Empty array for zero size. Vegetables are not tasty /s
 } tasty_vegetable_t;
-// STATIC_ASSERT_TYPE_SIZE(tasty_vegetable_t, 0);
+STATIC_ASSERT_TYPE_SIZE(tasty_vegetable_t, 0);
 
 typedef struct __attribute__((packed)) {
     union_tag_t tag;
@@ -37,7 +37,7 @@ typedef struct __attribute__((packed)) {
         tasty_vegetable_t vegetable;
     };
 } tasty_food_t;
-// STATIC_ASSERT_TYPE_SIZE(tasty_food_t, 2);
+STATIC_ASSERT_TYPE_SIZE(tasty_food_t, 2);
 
 int
 main(int argc, char const *argv[])
