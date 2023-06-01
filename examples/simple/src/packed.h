@@ -22,14 +22,6 @@ extern "C" {
 #    define PACKED_ENUM(name) enum __attribute__((packed)) name
 #endif
 
-#if defined(__clang__)
-#    warning __clang__
-#elif defined(_MSC_VER)
-#    warning _MSC_VER
-#elif defined(__GNUC__)
-#    warning __GNUC__
-#endif
-
 #ifdef __cplusplus
 }
 #endif
