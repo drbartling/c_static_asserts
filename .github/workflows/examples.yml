@@ -21,10 +21,7 @@ jobs:
         generator:
         - default
         include:
-          # msvc not supported right now
-        # - {os: windows-latest, compiler: msvc}
         - {os: windows-latest, compiler: gcc, generator: Ninja}
-        - {os: windows-latest, compiler: llvm, generator: Ninja}
     steps:
     - name: Check out repository
       uses: actions/checkout@v3
