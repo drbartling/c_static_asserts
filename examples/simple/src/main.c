@@ -1,50 +1,42 @@
 #include "static_assert.h"
 
-#include "packed.h"
-
 #include <stdint.h>
 #include <stdio.h>
 
-typedef PACKED_STRUCT()
-{
+typedef struct __attribute__((packed)) {
     int8_t  small_num;
     int32_t big_num;
     int16_t med_num;
-}
-my_struct_t;
+} my_struct_t;
 STATIC_ASSERT_TYPE_SIZE(my_struct_t, 7);
 STATIC_ASSERT_MEMBER_OFFSET(my_struct_t, big_num, 1);
 STATIC_ASSERT_MEMBER_OFFSET(my_struct_t, med_num, 5);
 
-typedef PACKED_ENUM(){
+typedef enum __attribute__((packed)) {
     fruit,
     vegetable,
 } union_tag_t;
 STATIC_ASSERT_TYPE_SIZE(union_tag_t, 1);
 
-typedef PACKED_ENUM(){
+typedef enum __attribute__((packed)) {
     apple,
     pear,
     banana,
 } tasty_fruit_t;
 STATIC_ASSERT_TYPE_SIZE(tasty_fruit_t, 1);
 
-typedef PACKED_STRUCT()
-{
+typedef struct __attribute__((packed)) {
     int8_t empty[0]; // Empty array for zero size. Vegetables are not tasty /s
-}
-tasty_vegetable_t;
+} tasty_vegetable_t;
 STATIC_ASSERT_TYPE_SIZE(tasty_vegetable_t, 0);
 
-typedef PACKED_STRUCT()
-{
+typedef struct __attribute__((packed)) {
     union_tag_t tag;
     union {
         tasty_fruit_t     fruit;
         tasty_vegetable_t vegetable;
     };
-}
-tasty_food_t;
+} tasty_food_t;
 STATIC_ASSERT_TYPE_SIZE(tasty_food_t, 2);
 
 int
