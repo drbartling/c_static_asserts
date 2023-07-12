@@ -6,4 +6,4 @@ build:
 	cmake -S ./examples/simple -B build
 
 clean:
-	rm -rf *build*
+	rm -rf build
