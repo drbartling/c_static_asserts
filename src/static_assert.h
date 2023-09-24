@@ -15,6 +15,12 @@ extern "C" {
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 
+#ifdef STATIC_ASSERT_DISABLE
+#    define STATIC_ASSERT_DISABLE_TYPE_SIZE
+#    define STATIC_ASSERT_DISABLE_MEMBER_OFFSET
+#endif
+
+#ifndef STATIC_ASSERT_DISABLE_TYPE_SIZE
 /**
  * @brief      Compile time assertion on typedef size
  *
@@ -25,33 +31,41 @@ extern "C" {
  * @param      expected_size  The expected size
  *
  */
-#define STATIC_ASSERT_TYPE_SIZE(t_label, expected_size)                        \
-    STATIC_ASSERT(                                                             \
-        !(sizeof(t_label) < expected_size),                                    \
-        STR(t_label) " is smaller than " STR(expected_size) " bytes");         \
-    STATIC_ASSERT(                                                             \
-        !(sizeof(t_label) > expected_size),                                    \
-        STR(t_label) " is larger than " STR(expected_size) " bytes");          \
-    STATIC_ASSERT(sizeof(t_label) == expected_size,                            \
-                  STR(t_label) " must be " STR(expected_size) " bytes")
+#    define STATIC_ASSERT_TYPE_SIZE(t_label, expected_size)                    \
+        STATIC_ASSERT(                                                         \
+            !(sizeof(t_label) < expected_size),                                \
+            STR(t_label) " is smaller than " STR(expected_size) " bytes");     \
+        STATIC_ASSERT(                                                         \
+            !(sizeof(t_label) > expected_size),                                \
+            STR(t_label) " is larger than " STR(expected_size) " bytes");      \
+        STATIC_ASSERT(sizeof(t_label) == expected_size,                        \
+                      STR(t_label) " must be " STR(expected_size) " bytes")
+#else
+#    define STATIC_ASSERT_TYPE_SIZE(t_label, expected_size)
+#endif
 
+#ifndef STATIC_ASSERT_DISABLE_MEMBER_OFFSET
 /**
- * @brief      Fail compilation if ofset of member does not match the expected
+ * @brief      Fail compilation if offset of member does not match the expected
  *             offset
  *
- * @param      t_label          Lable for the type
+ * @param      t_label          Label for the type
  * @param      member           Label for the member
  * @param      expected_offset  The expected offset
  *
  */
-#define STATIC_ASSERT_MEMBER_OFFSET(t_label, member, expected_offset)          \
-    STATIC_ASSERT(!(offsetof(t_label, member) < expected_offset),              \
-                  STR(member) " offset is less than " STR(expected_offset));   \
-    STATIC_ASSERT(                                                             \
-        !(offsetof(t_label, member) > expected_offset),                        \
-        STR(member) " offset is greater than " STR(expected_offset));          \
-    STATIC_ASSERT(offsetof(t_label, member) == expected_offset,                \
-                  STR(member) " offset must be " STR(expected_offset))
+#    define STATIC_ASSERT_MEMBER_OFFSET(t_label, member, expected_offset)      \
+        STATIC_ASSERT(                                                         \
+            !(offsetof(t_label, member) < expected_offset),                    \
+            STR(member) " offset is less than " STR(expected_offset));         \
+        STATIC_ASSERT(                                                         \
+            !(offsetof(t_label, member) > expected_offset),                    \
+            STR(member) " offset is greater than " STR(expected_offset));      \
+        STATIC_ASSERT(offsetof(t_label, member) == expected_offset,            \
+                      STR(member) " offset must be " STR(expected_offset))
+#else
+#    define STATIC_ASSERT_MEMBER_OFFSET(t_label, expected_size)
+#endif
 
 #ifdef __cplusplus
 }
